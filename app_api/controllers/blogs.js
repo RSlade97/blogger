@@ -30,9 +30,9 @@ var buildBlogList = function(req, res, results) {
   var blogs = [];
   results.forEach(function(obj) {
     blogs.push({
-      blogTitle: blog.blogTitle,
-      blogText: blog.blogText,
-      createdOn: blog.createdOn,
+      blogTitle: obj.blogTitle,
+      blogText: obj.blogText,
+      createdOn: obj.createdOn,
       _id: obj._id
     });
   });
