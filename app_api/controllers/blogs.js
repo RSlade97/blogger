@@ -22,11 +22,11 @@ module.exports.blogsList = function (req, res) {
         return;
       }
       console.log(results);
-      sendJSONresponse(res, 200, buildBlogList(req, res, results));
+      sendJSONresponse(res, 200, buildBlogsList(req, res, results));
     });
 };
 
-var buildBlogList = function(req, res, results) {
+var buildBlogsList = function(req, res, results) {
   var blogs = [];
   results.forEach(function(obj) {
     blogs.push({

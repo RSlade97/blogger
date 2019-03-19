@@ -1,6 +1,6 @@
 var request = require('request');
 var apiOptions = {
-  server : "http://54.172.245.253"
+  server : "http://localhost"
 }
 
 /* Show errors */
@@ -25,7 +25,7 @@ var _showError = function (req, res, status) {
 
 /* Add blog */
 module.exports.blogAdd = function(req, res) {
-  res.render('add-blog', { title: 'Add Blog'});
+  res.render('blogAdd', { title: 'Add Blog'});
 };
 
 /* Add blog post */
@@ -48,7 +48,7 @@ module.exports.blogAddPost = function(req, res) {
     requestOptions,
     function(err, response, body) {
       if (response.statusCode === 201) {
-        res.redirect('/blog-list');
+        res.redirect('/blogList');
       } else {
         _showError(req, res, response.statusCode);
       }
@@ -75,7 +75,7 @@ module.exports.blogShow = function(req, res) {
 
 /* Render show blog page */
 var renderShowPage = function(req, res, responseBody) {
-  res.render('blog-show', {
+  res.render('blogShow', {
     title : 'Blog Info',
     pageHeader : {
       title : 'Blog Info'
@@ -92,7 +92,7 @@ module.exports.blogList = function(req, res) {
     url : apiOptions.server + path,
     method : "GET",
     json : {},
-    qs : {},
+    qs : {}
   };
   request(
     requestOptions,
@@ -104,7 +104,7 @@ module.exports.blogList = function(req, res) {
 
 /* Render the blog list page */
 var renderListPage = function(req, res, responseBody) {
-  res.render('blog-list', {
+  res.render('blogList', {
     title : 'Blog List',
     pageHeader : {
       title : 'Blog List'
@@ -148,7 +148,7 @@ module.exports.blogEditPost = function (req, res) {
     requestOptions,
     function(err, response, body) {
       if (response.statusCode === 201) {
-        res.redirect('/blog-list');
+        res.redirect('/blogList');
       } else {
         _showError(req, res, response.statusCode);
       }
@@ -158,7 +158,7 @@ module.exports.blogEditPost = function (req, res) {
 
 /* Render the blog edit page */
 var renderEditPage = function(req, res, responseBody) {
-  res.render('blog-edit', {
+  res.render('blogEdit', {
     title : 'Blog Edit',
     pageHeader : {
       title : 'Blog Edit'
@@ -198,7 +198,7 @@ module.exports.blogDeletePost = function (req, res) {
     requestOptions,
     function(err, response, body) {
       if (response.statusCode === 204) {
-        res.redirect('/blog-list');
+        res.redirect('/blogList');
       } else {
         _showError(req, res, response.statusCode);
       }
@@ -208,7 +208,7 @@ module.exports.blogDeletePost = function (req, res) {
 
 /* Render the blog delete page */
 var renderDeletePage = function (req, res, responseBody) {
-  res.render('blog-delete', {
+  res.render('blogDelete', {
     title : 'Blog Delete',
     pageHeader : {
       title : 'Blog Delete'
