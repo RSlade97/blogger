@@ -1,7 +1,7 @@
 var request = require('request');
 var apiOptions = {
-  server : "http://localhost"
-}
+  server : "http://localhost:3000"
+};
 
 /* Show errors */
 var _showError = function (req, res, status) {
@@ -48,7 +48,7 @@ module.exports.blogAddPost = function(req, res) {
     requestOptions,
     function(err, response, body) {
       if (response.statusCode === 201) {
-        res.redirect('/blogList');
+        res.redirect('/blogsList');
       } else {
         _showError(req, res, response.statusCode);
       }
@@ -85,7 +85,7 @@ var renderShowPage = function(req, res, responseBody) {
 };
 
 /* List blogs */
-module.exports.blogList = function(req, res) {
+module.exports.blogsList = function(req, res) {
   var requestOptions, path;
   path = '/api/blogs';
   requestOptions = {
@@ -104,7 +104,7 @@ module.exports.blogList = function(req, res) {
 
 /* Render the blog list page */
 var renderListPage = function(req, res, responseBody) {
-  res.render('blogList', {
+  res.render('blogsList', {
     title : 'Blog List',
     pageHeader : {
       title : 'Blog List'
