@@ -41,9 +41,9 @@ var buildBlogsList = function(req, res, results) {
 
 module.exports.blogShow = function (req, res) {
   console.log('Finding blog details', req.params);
-  if (req.params && req.params.blogid) {
+  if (req.params && req.params.id) {
     Blog
-      .findById(req.params.blogid)
+      .findById(req.params.id)
       .exec(function(err, blog) {
         if(!blog) {
           sendJSONresponse(res, 404, {
@@ -59,9 +59,9 @@ module.exports.blogShow = function (req, res) {
         sendJSONresponse(res, 200, blog);
       });
   } else {
-    console.log('No blogid specified');
+    console.log('No id specified');
     sendJSONresponse(res, 404, {
-      "message" : "No blogid in request"
+      "message" : "No id in request"
     });
   }
 };
@@ -91,8 +91,7 @@ module.exports.blogUpdate = function (req, res) {
   Blog
     .findOneAndUpdate(
       { _id: req.params.id },
-      { $set: {"blogTitle": req.body.blogTitle}},
-      { $set: {"blogText": req.body.blogText}},
+      { $set: {"blogTitle": req.body.blogTitle, "blogText": req.body.blogText}},
       function(err, response) {
         if (err) {
           sendJSONresponse(res, 400, err);

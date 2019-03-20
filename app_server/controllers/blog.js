@@ -56,10 +56,10 @@ module.exports.blogAddPost = function(req, res) {
   );
 };  
 
-/* Show blog */
+/* Show a blog */
 module.exports.blogShow = function(req, res) {
   var requestOptions, path;
-  path = "/api/blogs" + req.params.id;
+  path = "/api/blogs/" + req.params.id;
   requestOptions = {
     url : apiOptions.server + path,
     method : "GET",
