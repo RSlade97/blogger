@@ -1,6 +1,6 @@
 var request = require('request');
 var apiOptions = {
-  server : "http://localhost:3000"
+  server : "http://localhost:80"
 };
 
 /* Show errors */

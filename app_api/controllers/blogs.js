@@ -85,8 +85,8 @@ module.exports.blogAdd = function (req, res) {
   );
 };
 
-module.exports.blogUpdate = function (req, res) {
-  console.log("Updating a blog entry with id of " + req.params.id);
+module.exports.blogEdit = function (req, res) {
+  console.log("Editing a blog entry with id of " + req.params.id);
   console.log(req.body);
   Blog
     .findOneAndUpdate(
