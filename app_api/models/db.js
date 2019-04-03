@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var gracefulShutdown;
 var dbURI = 'mongodb://blogs:Goufunit1@localhost/blogger';
-mongoose.connect(dbURI);
+mongoose.connect(dbURI, {useNewUrlParser: true});
 
 // Monitor and report when database is connected
 mongoose.connection.on('connected', function () {
