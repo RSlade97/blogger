@@ -77,7 +77,7 @@ app.controller('ListController', function ListController($http) {
     });
 });
 
-app.controller('AddController', function AddController($http) {
+app.controller('AddController', [ '$http', '$location', function AddController($http, $location) {
   var vm = this;
   vm.blog = {}
   vm.pageHeader = {
@@ -90,14 +90,15 @@ app.controller('AddController', function AddController($http) {
     addBlog($http, data)
       .success(function(data) {
 	vm.message = "Blog successfully created.";
+	$location.path('/bloglist').replace();
       })
       .error(function(e) {
 	vm.message = "Couldn't add blog " + addForm.blogTitle.text + " " + addForm.blogText.text;
       });
   }
-});
+}]);
 
-app.controller('EditController', [ '$http', '$routeParams', function EditController($http, $routeParams) {
+app.controller('EditController', [ '$http', '$routeParams', '$location', function EditController($http, $routeParams, $location) {
   var vm = this;
   vm.blog = {};
   vm.id = $routeParams.id;
@@ -119,6 +120,7 @@ app.controller('EditController', [ '$http', '$routeParams', function EditControl
     updateBlogById($http, vm.id, data)
       .success(function(data) {
 	vm.message = "Blog successfully updated.";
+	$location.path('/bloglist').replace();
       })
       .error(function(e) {
 	vm.message = "Couldn't update blog with id of " + vm.id + editForm.blogTitle.text + " " + editForm.blogText.text;
@@ -126,7 +128,7 @@ app.controller('EditController', [ '$http', '$routeParams', function EditControl
   }
 }]);
 
-app.controller('DeleteController', [ '$http', '$routeParams', '$location', function DeleteController($http, $routeParams) {
+app.controller('DeleteController', [ '$http', '$routeParams', '$location', function DeleteController($http, $routeParams, $location) {
   var vm = this;
   vm.blog = {};
   vm.id = $routeParams.id;
@@ -145,6 +147,7 @@ app.controller('DeleteController', [ '$http', '$routeParams', '$location', funct
     deleteBlogById($http, vm.id)
       .success(function(data) {
         vm.message = "Blog deleted.";
+	$location.path('/bloglist').replace();
       })
       .error(function(e) {
 	vm.message = "Couldn't delete blog with id of " + vm.id;
