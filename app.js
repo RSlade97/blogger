@@ -1,9 +1,12 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var passport = require('passport');
 require('./app_api/models/db');
+require('./app_api/config/passport');
 
 var routesApi = require('./app_api/routes/index');
 
@@ -19,7 +22,7 @@ app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); /
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // Redirect JS JQuery
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // Redirect CSS Bootstrap
 app.use('/css', express.static(__dirname + '/public/stylesheets'));
-
+app.use(passport.initialize());
 app.use('/api', routesApi);
 
 // catch 404 and forward to error handler

@@ -28,6 +28,16 @@ app.config(function($routeProvider) {
       controller: 'DeleteController',
       controllerAs: 'vm'
     })
+    .when('/register', {
+      templateUrl: 'pages/register.html',
+      controller: 'RegisterController',
+      controllerAs: 'vm'
+    })
+    .when('/login', {
+      templateUrl: 'pages/login.html',
+      controller: 'LoginController',
+      controllerAs: 'vm'
+    })
     .otherwise({redirectTo: '/'});
   }
 );
@@ -37,20 +47,20 @@ function getAllBlogs($http) {
   return $http.get('/api/blogs');
 }
 
-function addBlog($http, data) {
-  return $http.post('/api/blogs/', data);
+function addBlog($http, data, authentication) {
+  return $http.post('/api/blogs/', data, { headers: { Authorization: 'Bearer ' + authentication.getToken() }} );
 }
 
 function getBlogById($http, id) {
   return $http.get('/api/blogs/' + id);
 }
 
-function updateBlogById($http, id, data) {
-  return $http.put('/api/blogs/' + id, data);
+function updateBlogById($http, id, data, authentication) {
+  return $http.put('/api/blogs/' + id, data, { headers: { Authorization: 'Bearer ' + authentication.getToken() }} );
 }
 
-function deleteBlogById($http, id) {
-  return $http.delete('/api/blogs/' + id);
+function deleteBlogById($http, id, authentication) {
+  return $http.delete('/api/blogs/' + id, { headers: { Authorization: 'Bearer ' + authentication.getToken() }} );
 }
 
 // Controllers
@@ -62,11 +72,12 @@ app.controller('HomeController', function HomeController() {
   vm.message = "Welcome to Robert Slade's blog!";
 });
 
-app.controller('ListController', function ListController($http) {
+app.controller('ListController', [ '$http', 'authentication', function ListController($http, authentication) {
   var vm =  this;
   vm.pageHeader =  {
     title: "Blogs"
   };
+  vm.isLoggedIn = authentication.isLoggedIn();
   getAllBlogs($http)
     .success(function(data) {
       vm.blogs = data;
@@ -75,9 +86,9 @@ app.controller('ListController', function ListController($http) {
     .error(function(e) {
       vm.message = "Couldn't retrieve blogs.";
     });
-});
+}]);
 
-app.controller('AddController', [ '$http', '$location', function AddController($http, $location) {
+app.controller('AddController',  [ '$http', '$location', 'authentication', function AddController($http, $location, authentication) {
   var vm = this;
   vm.blog = {}
   vm.pageHeader = {
@@ -87,7 +98,7 @@ app.controller('AddController', [ '$http', '$location', function AddController($
     var data = vm.blog;
     data.blogTitle = addForm.blogTitle.value;
     data.blogText = addForm.blogText.value;
-    addBlog($http, data)
+    addBlog($http, data, authentication)
       .success(function(data) {
 	vm.message = "Blog successfully created.";
 	$location.path('/bloglist').replace();
@@ -98,7 +109,7 @@ app.controller('AddController', [ '$http', '$location', function AddController($
   }
 }]);
 
-app.controller('EditController', [ '$http', '$routeParams', '$location', function EditController($http, $routeParams, $location) {
+app.controller('EditController', [ '$http', '$routeParams', '$location', 'authentication', function EditController($http, $routeParams, $location, authentication) {
   var vm = this;
   vm.blog = {};
   vm.id = $routeParams.id;
@@ -117,7 +128,7 @@ app.controller('EditController', [ '$http', '$routeParams', '$location', functio
     var data = vm.blog;
     data.blogTitle = editForm.blogTitle.value;
     data.blogText = editForm.blogText.value;
-    updateBlogById($http, vm.id, data)
+    updateBlogById($http, vm.id, data, authentication)
       .success(function(data) {
 	vm.message = "Blog successfully updated.";
 	$location.path('/bloglist').replace();
@@ -128,7 +139,7 @@ app.controller('EditController', [ '$http', '$routeParams', '$location', functio
   }
 }]);
 
-app.controller('DeleteController', [ '$http', '$routeParams', '$location', function DeleteController($http, $routeParams, $location) {
+app.controller('DeleteController', [ '$http', '$routeParams', '$location', 'authentication', function DeleteController($http, $routeParams, $location, authentication) {
   var vm = this;
   vm.blog = {};
   vm.id = $routeParams.id;
@@ -144,7 +155,7 @@ app.controller('DeleteController', [ '$http', '$routeParams', '$location', funct
       vm.message = "Couldn't get blog with id of " + vm.id;
     });
   vm.submit = function() {
-    deleteBlogById($http, vm.id)
+    deleteBlogById($http, vm.id, authentication)
       .success(function(data) {
         vm.message = "Blog deleted.";
 	$location.path('/bloglist').replace();

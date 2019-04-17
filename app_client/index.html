@@ -8,15 +8,9 @@
   <body>
 
     <!-- Navigation -->
-    <nav class = "navbar fixed-top navbar-expand-sm navbar-dark bg-primary">
-      <a class = "navbar-brand" href = "#/">Home</a>
-      <div class = "collapse navbar-collapse" id = "navbarNavAltMarkup">
-        <div class = "navbar-nav">
-          <a class = "nav-item nav-link active" href = "#/bloglist">View Blogs</a>
-          <a class = "nav-item nav-link active" href = "#/blogadd">Write Blog</a>
-        </div>
-      </div>
-    </nav>
+    <div ng-controller = "NavigationController">
+      <navigation></navigation>
+    </div>
 
     <!-- Angular templates -->
     <script type = "text/ng-template" id = "pages/index.html">
@@ -35,7 +29,7 @@
             <h3 class = "card-title">{{blog.blogTitle}}</h3>
             <p class = "card-text">{{blog.blogText}}</p>
           </div>
-          <div class = "card-footer">
+          <div class = "card-footer" ng-show = "vm.isLoggedIn">
             <a class = "btn btn-primary" href = "#/blogedit/{{blog._id}}">Edit</a>
             <a class = "btn btn-danger" href = "#/blogdelete/{{blog._id}}">Delete</a>
           </div>
@@ -83,10 +77,45 @@
       </div>
     </script>
 
+    <script type = "text/ng-template" id = "pages/register.html">
+      <div class = "card border-primary" style = "width: 50%; margin-top: 64px;">
+	<form ng-submit = "vm.onSubmit()">
+	  <h2>If you are already a member, <a href = "/#login?page={{ vm.returnPage }}">log in</a> instead.</h2>
+	  <div role = "alert" ng-show = "vm.formError" class = "alert alert-danger">{{ vm.formError }}</div>
+	  <div class = "form-group">
+	    <label for = "name" class = "text-primary">Name</label>
+	    <input type = "text" class = "form-control" id = "name" ng-model = "vm.credentials.name">
+	    <label for = "email" class = "text-primary">Email</label>
+	    <input type = "text" class = "form-control" id = "email" ng-model = "vm.credentials.email">
+	    <label for = "password" class = "text-primary">Password</label>
+	    <input type = "password" class = "form-control" id = "password" ng-model = "vm.credentials.password">
+	  </div>
+	  <input type = "submit" class = "btn btn-primary" value = "Register">
+	</form>
+      </div>
+    </script>
+
+    <script type = "text/ng-template" id = "pages/login.html">
+      <div class = "card border-primary" style = "width: 50%; margin-top: 64px;">
+	<form ng-submit = "vm.onSubmit()">
+	  <h2>Not a member? <a href = "/#register?page={{ vm.returnPage }}">Register</a> instead.</h2>
+	  <div role = "alert" ng-show = "vm.formError" class = "alert alert-danger">{{ vm.formError }}</div>
+	  <div class = "form-group">
+	    <label for = "email" class = "text-primary">Email</label>
+	    <input type = "text" class = "form-control" id = "email" ng-model = "vm.credentials.email">
+	    <label for = "password" class = "text-primary">Password</label>
+	    <input type = "password" class = "form-control" id = "password" ng-model = "vm.credentials.password">
+	  </div>
+	  <input type = "submit" class = "btn btn-primary" value = "Log In">
+	</form>
+      </div>
+    </script>
+
     <!-- Angular view (dynamic content goes here) -->
     <div ng-view>
     </div>
     <script src = "bloggerApp.js"></script>
-
+    <script src = "common/auth/authentication_service.js"></script>
+    <script src = "common/nav/navigation.js"></script>
   </body>
 </html>
