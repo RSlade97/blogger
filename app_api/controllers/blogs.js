@@ -33,6 +33,8 @@ var buildBlogsList = function(req, res, results) {
       blogTitle: obj.blogTitle,
       blogText: obj.blogText,
       createdOn: obj.createdOn,
+      email: obj.email,
+      name: obj.name,
       _id: obj._id
     });
   });
@@ -72,7 +74,9 @@ module.exports.blogAdd = function (req, res) {
     .create({
       blogTitle: req.body.blogTitle,
       blogText: req.body.blogText,
-      createdOn: req.body.createdOn
+      createdOn: req.body.createdOn,
+      email: req.body.email,
+      name: req.body.name,
     }, function(err, blog) {
       if (err) {
         console.log(err);

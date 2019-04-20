@@ -78,6 +78,7 @@ app.controller('ListController', [ '$http', 'authentication', function ListContr
     title: "Blogs"
   };
   vm.isLoggedIn = authentication.isLoggedIn();
+  vm.currentUser = authentication.currentUser().name;
   getAllBlogs($http)
     .success(function(data) {
       vm.blogs = data;
@@ -98,13 +99,15 @@ app.controller('AddController',  [ '$http', '$location', 'authentication', funct
     var data = vm.blog;
     data.blogTitle = addForm.blogTitle.value;
     data.blogText = addForm.blogText.value;
+    data.name = authentication.currentUser().name;
+    data.email = authentication.currentUser().email;
     addBlog($http, data, authentication)
       .success(function(data) {
 	vm.message = "Blog successfully created.";
 	$location.path('/bloglist').replace();
       })
       .error(function(e) {
-	vm.message = "Couldn't add blog " + addForm.blogTitle.text + " " + addForm.blogText.text;
+	vm.message = "Couldn't add blog " + addForm.blogTitle.text + " " + addForm.blogText.text + " " + authentication.currentUser().name + " " + authentication.currentUser().email;
       });
   }
 }]);
