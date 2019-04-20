@@ -78,7 +78,7 @@ app.controller('ListController', [ '$http', 'authentication', function ListContr
     title: "Blogs"
   };
   vm.isLoggedIn = authentication.isLoggedIn();
-  vm.currentUser = authentication.currentUser().name;
+  vm.currentUser = authentication.currentUser();
   getAllBlogs($http)
     .success(function(data) {
       vm.blogs = data;

@@ -30,7 +30,7 @@
             <p class = "card-text">{{blog.blogText}}</p>
             <p class = "card-text">Published by {{blog.name}} on {{blog.createdOn}}</p>
           </div>
-          <div class = "card-footer" ng-show = "vm.isLoggedIn && (vm.currentUser === blog.name)">
+          <div class = "card-footer" ng-show = "vm.isLoggedIn && (vm.currentUser.name === blog.name)">
             <a class = "btn btn-primary" href = "#/blogedit/{{blog._id}}">Edit</a>
             <a class = "btn btn-danger" href = "#/blogdelete/{{blog._id}}">Delete</a>
           </div>
