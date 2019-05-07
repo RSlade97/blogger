@@ -13,6 +13,8 @@ router.get('/blogs/:id', ctrlBlogs.blogShow);
 router.post('/blogs', auth, ctrlBlogs.blogAdd);
 router.put('/blogs/:id', auth, ctrlBlogs.blogEdit);
 router.delete('/blogs/:id', auth, ctrlBlogs.blogDelete);
+
 router.post('/register', ctrlAuth.register);
 router.post('/login', ctrlAuth.login);
+
 module.exports = router;

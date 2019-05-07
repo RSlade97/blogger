@@ -26,6 +26,11 @@ var blogSchema = new mongoose.Schema ({
     type: String,
     unique: true,
     required: true
+  },
+
+  comment: {
+    type: String,
+    "default": ""
   }
 });
 

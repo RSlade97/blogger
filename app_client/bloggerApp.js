@@ -131,13 +131,14 @@ app.controller('EditController', [ '$http', '$routeParams', '$location', 'authen
     var data = vm.blog;
     data.blogTitle = editForm.blogTitle.value;
     data.blogText = editForm.blogText.value;
+    data.comment = editForm.comment.value;
     updateBlogById($http, vm.id, data, authentication)
       .success(function(data) {
 	vm.message = "Blog successfully updated.";
 	$location.path('/bloglist').replace();
       })
       .error(function(e) {
-	vm.message = "Couldn't update blog with id of " + vm.id + editForm.blogTitle.text + " " + editForm.blogText.text;
+	vm.message = "Couldn't update blog with id of " + vm.id + editForm.blogTitle.text + " " + editForm.blogText.text + " " + editForm.comment.text;
       });
   }
 }]);

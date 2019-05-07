@@ -30,9 +30,12 @@
             <p class = "card-text">{{blog.blogText}}</p>
             <p class = "card-text">Published by {{blog.name}} on {{blog.createdOn}}</p>
           </div>
-          <div class = "card-footer" ng-show = "vm.isLoggedIn && (vm.currentUser.name === blog.name)">
-            <a class = "btn btn-primary" href = "#/blogedit/{{blog._id}}">Edit</a>
-            <a class = "btn btn-danger" href = "#/blogdelete/{{blog._id}}">Delete</a>
+          <div ng-show = "vm.isLoggedIn" class = "card-footer">
+            <a class = "btn btn-primary" href = "#/blogedit/{{blog._id}}">Edit/Comment</a>
+            <a class = "btn btn-danger" ng-show = "(vm.currentUser.name === blog.name)" href = "#/blogdelete/{{blog._id}}">Delete</a>
+          </div>
+          <div>
+            <p class = "card-text">A user commented: <em>"{{blog.comment}}"</em></p>
           </div>
         </div>
       </div>
@@ -56,10 +59,12 @@
       <div class = "card border-primary" style = "width: 50%; margin-top: 64px; margin-left = 128px;">
 	<form name = "editForm" ng-submit = "vm.submit()" ng-controller = "EditController" style = "padding: 20px">
 	  <div class = "form-group">
-	    <label for = "summary" class = "text-primary">Blog Title</label>
-	    <input class = "form-control" id = "blogTitle" name = "blogTitle" value = "{{vm.blog.blogTitle}}">
-	    <label for = "detail" class = "text-primary">Blog Text</label>
-	    <textarea class = "form-control" id = "blogText" name  = "blogText" rows = "3">{{vm.blog.blogText}}</textarea>
+	    <label ng-show = "vm.isLoggedIn && (vm.currentUser.name === blog.name)" for = "summary" class = "text-primary">Blog Title</label>
+	    <input ng-show = "vm.isLoggedIn && (vm.currentUser.name === blog.name)" class = "form-control" id = "blogTitle" name = "blogTitle" value = "{{vm.blog.blogTitle}}">
+	    <label ng-show = "vm.isLoggedIn && (vm.currentUser.name === blog.name)" for = "detail" class = "text-primary">Blog Text</label>
+	    <textarea ng-show = "vm.isLoggedIn && (vm.currentUser.name === blog.name)" class = "form-control" id = "blogText" name  = "blogText" rows = "3">{{vm.blog.blogText}}</textarea>
+      <label for = "comment" class = "text-prmary">Comment</label>
+      <textarea class = "form-control" id = "comment" name = "comment" rows = "3"></textarea>
 	  </div>
 	  <input type = "submit" class = "btn btn-primary" value = "Save">
 	</form>
